@@ -49,7 +49,7 @@ before_script:
 
   # start a web server on port 8080, run in the background; wait for initialization
   - drush runserver 127.0.0.1:8080 &
-  - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
+  - sleep 10
 
 script: 
   - php scripts/run-tests.sh --php $(which php) --verbose --color --concurrency 4 --url http://127.0.0.1:8080 'Travis-CI Drupal Module Example' | tee /tmp/simpletest-result.txt
