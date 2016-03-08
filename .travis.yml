@@ -46,4 +46,6 @@ before_script:
   - drush runserver 127.0.0.1:8080 &
   - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
 
-script: drush test-run 'Travis-CI Drupal Module Example' --uri=http://127.0.0.1:8080
+script: 
+  - php scripts/run-tests.sh --php $(which php) --verbose --color --concurrency 4 --url http://127.0.0.1:8080 'Travis-CI Drupal Module Example' | tee /tmp/simpletest-result.txt
+  - (! egrep -iq "([1-9]+ fail[s]?)|(Fatal error)" /tmp/simpletest-result.txt)
